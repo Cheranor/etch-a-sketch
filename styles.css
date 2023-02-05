@@ -1,0 +1,18 @@
+#canvas {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+
+    max-width: fit-content;
+
+    border-style: solid;
+}
+
+.row {
+    display: flex;
+}
+
+.pixel {
+    background-color: white;
+    margin: 1px;
+}
