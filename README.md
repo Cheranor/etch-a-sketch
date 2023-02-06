@@ -1,4 +1,22 @@
 # etch-a-sketch
+06.02.2023: Second version of Etch-A-Sketch
+
+Implementation:
+- Resizing
+
+ToDo:
+- Improve layout
+
+Trained/Learned:
+Adding the resizing caused me to encapsulate the canvas generation into its own function. Since I intended to do this from the beginning, only minor restructuring was necessary. This exemplified the importance of encapsulation and planning to me.
+My first try didn't update the event listeners of the pixels. This meant, that sketching on the resized canvas was not possible. This bug was found quickly by investigating with the developer tools.
+Summary:
+- DOM-manipulation with JS
+- Encapsulation of functionality
+- Bugfixing
+- Combining DOM-manipulation with updating event listeners
+
+
 05.02.2023: First version of Etch-A-Sketch
 
 Implementation:

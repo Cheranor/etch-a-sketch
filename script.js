@@ -1,19 +1,14 @@
-let dim = 20;
-let dimInPx = 960;
-let cellSize = dimInPx/dim
+const dimInPx = 960;
+
 let color = 'black'
+let pixels = document.querySelectorAll('.pixel');
 
 const canvas = document.querySelector('#canvas');
 const reset = document.querySelector('#reset');
 const blackBtn = document.querySelector('#black');
 const rainbowBtn = document.querySelector('#rainbow');
-
-const row = document.createElement('div');
-
-const pixel = document.createElement('div');
-pixel.classList.add('pixel')
-pixel.style.width = `${cellSize}px`
-pixel.style.height = `${cellSize}px`
+const resizeBtn = document.querySelector('#resize')
+const dimInputFld = document.querySelector('#dimInput')
 
 
 function getRandomInt(max) {
@@ -35,6 +30,12 @@ function rainbow(pixel) {
 }
 
 
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
 function clearCanvas() {
     pixels.forEach(px => {
         px.style.backgroundColor = 'white';
@@ -42,40 +43,59 @@ function clearCanvas() {
 }
 
 
+function drawCanvas(dim) {
+    let cellSize = dimInPx/dim
 
+    const row = document.createElement('div');
 
-row.classList.add('row');
-for (let index = 0; index < dim; index++) {
-    row.appendChild(pixel.cloneNode(true));
-}
+    const pixel = document.createElement('div');
+    pixel.classList.add('pixel')
+    pixel.style.width = `${cellSize}px`
+    pixel.style.height = `${cellSize}px`
 
-for (let index = 0; index < dim; index++) {
-    canvas.appendChild(row.cloneNode(true));
-}
+    removeAllChildNodes(canvas);
 
+    row.classList.add('row');
+    for (let index = 0; index < dim; index++) {
+        row.appendChild(pixel.cloneNode(true));
+    }
 
+    for (let index = 0; index < dim; index++) {
+        canvas.appendChild(row.cloneNode(true));
+    }
 
+    pixels = document.querySelectorAll('.pixel');
+    console.log(pixels)
 
-
-
-
-
-
-let pixels = document.querySelectorAll('.pixel');
-
-pixels.forEach((px) => {
-    px.addEventListener('mouseover', () => {
-        switch (color) {
-            case 'rainbow':
-                rainbow(px)
-                break;
-
-            default:
-                blacken(px);
-                break;
-        }
+    pixels.forEach((px) => {
+        px.addEventListener('mouseover', () => {
+            switch (color) {
+                case 'rainbow':
+                    rainbow(px)
+                    break;
+    
+                default:
+                    blacken(px);
+                    break;
+            }
+        })
     })
-})
+}
+
+
+function isValidDimInput(dimInput) {
+    let isValid = false
+    if (! isNaN(dimInput)) {
+        if ((dimInput >= 4) && (dimInput <= 100)) {
+            isValid = true;
+        }
+    }
+
+    return isValid;
+}
+
+drawCanvas(20);
+
 
 reset.addEventListener('click', () =>{
     clearCanvas();
@@ -93,4 +113,10 @@ rainbowBtn.addEventListener('click', () => {
     color = 'rainbow';
     blackBtn.disabled=false;
     rainbowBtn.disabled=true;
+})
+
+resizeBtn.addEventListener('click', () => {
+    if (isValidDimInput(dimInputFld.value)) {
+        drawCanvas(Number(dimInputFld.value))
+    }
 })
